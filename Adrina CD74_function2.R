@@ -250,7 +250,7 @@ if (!is_empty(selected_data)) {
       ylim(c(-4, 3))
     
     # Save the dot plot with width 3 and height 4
-    ggsave(paste0(experiment, timepoint, Cell_type, "_dotplot.svg"), plot = dotplot, width = 3, height = 4)
+    ggsave(paste0(experiment, timepoint, Cell_type, "_dotplot.svg"), plot = dotplot, width = 6, height = 5)
   } else {
     # If more than one gene is found, use gradient for dot colors
     dotplot <- ggplot(selected_data, aes(x = SYMBOL, y = log2FoldChange, color = padj)) +
@@ -264,7 +264,7 @@ if (!is_empty(selected_data)) {
       ylim(c(-4, 3))
     
     # Save the dot plot with default width and height
-    ggsave(paste0(experiment, timepoint, Cell_type, "_dotplot.svg"), plot = dotplot)
+    ggsave(paste0(experiment, timepoint, Cell_type, "_dotplot.svg"), plot = dotplot, width = 6, height = 5)
   }
   
   # Show the dot plot

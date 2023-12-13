@@ -262,25 +262,3 @@ browseURL(html_file)
 
 
 
-# Load the utils package
-library(utils)
-
-# Set the path to your folder
-folder_path <- WD
-
-# List all files in the folder
-all_files <- list.files(folder_path, full.names = TRUE)
-
-# Select files with extensions .svg, .html, and .R
-selected_files <- all_files[grep("\\.svg$|\\.html$|\\.R$", all_files)]
-
-# Set the name for the zip file
-zip_file_name <- "output.zip"
-
-# Zip the selected files
-zip(zip_file_name, files = selected_files)
-
-# Print a message indicating the process is completed
-cat("Files zipped successfully. Zip file:", zip_file_name, "\n")
-
-
