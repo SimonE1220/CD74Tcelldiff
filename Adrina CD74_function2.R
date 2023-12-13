@@ -228,6 +228,7 @@ result_dataframe <- subset(result_dataframe, padj < 0.05)
 
 
 # Select genes you want to include in the dot plot
+# Select genes you want to include in the dot plot
 selected_genes <- c("CD74", "CXCR4", "MIF")
 
 # Filter dataframe for selected genes
@@ -241,12 +242,13 @@ if (!is_empty(selected_data)) {
   if (nrow(selected_data) == 1) {
     # If only one gene is found, use black color for dot and p value without gradient
     dotplot <- ggplot(selected_data, aes(x = SYMBOL, y = log2FoldChange)) +
-      geom_point(size = 10, color = "black") +
+      geom_point(aes(color = as.factor(padj)), size = 10) +  # Use p.adjust for color
       labs(title = paste("Dot Plot of", Cell_type, "T-Cells", "after", timepoint, "in", experiment),
            x = "Genes of interest",
            y = paste("log2fold change (", experiment, ")"),
            color = "p.adjust") +
       theme(legend.title = element_text(size = 12)) +  # Change the legend caption to "p.adjust"
+      scale_color_manual(values = "black", guide = "legend") +  # Set color to black
       ylim(c(-4, 3))
     
     # Save the dot plot with width 3 and height 4
@@ -272,6 +274,7 @@ if (!is_empty(selected_data)) {
 } else {
   cat("No selected genes found. Skipping dot plot creation.\n")
 }
+
 
 rm(list = ls())
 cat("RNA-Seq analysis completed. Workspace cleared.\n")
