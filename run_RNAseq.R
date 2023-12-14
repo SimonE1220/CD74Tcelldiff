@@ -13,12 +13,7 @@ WD <- setwd("//isdsyn1-1.isd.med.uni-muenchen.de/BD-Bernhagen/Simon Ebert/CD74_A
 source("Adrina CD74_function2.R")
 
 
-experiment <- "Th0 vs. resting"
-Cell_type <- "CD4_Naive"
-timepoint <- "5d"
-condition <- c("Th0", "Resting")
-Reference="Resting"
-performRNASeqAnalysis(experiment, Cell_type, timepoint, condition, Reference)
+
 
 
 

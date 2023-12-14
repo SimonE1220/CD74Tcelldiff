@@ -191,7 +191,7 @@ p1<-EnhancedVolcano(filtered_df,
                     title = paste("DeSeq2 results of ", Cell_type, "T-Cells", experiment,"after", timepoint),
                     subtitle= "",
                     pCutoff = 0.05,
-                    selectLab = c("CD74", "CXCR4","MIF", "DDT"), #Lable the genes of interest
+                    selectLab = c("CD74", "CXCR4","MIF"), #Lable the genes of interest
                     FCcutoff = 1.5,
                     max.overlaps = 10,
                     cutoffLineType = "blank",
@@ -242,7 +242,7 @@ if (!is_empty(selected_data)) {
   if (nrow(selected_data) == 1) {
     # If only one gene is found, use black color for dot and p value without gradient
     dotplot <- ggplot(selected_data, aes(x = SYMBOL, y = log2FoldChange)) +
-      geom_point(aes(color = as.factor(padj)), size = 10) +  # Use p.adjust for color
+      geom_point(aes(color = as.factor(sprintf("%.3g", padj))), size = 10) +  # Use formatted p.adjust for color
       labs(title = paste("Dot Plot of", Cell_type, "T-Cells", "after", timepoint, "in", experiment),
            x = "Genes of interest",
            y = paste("log2fold change (", experiment, ")"),
