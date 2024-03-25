@@ -11,7 +11,7 @@ library(dplyr)
 
 #Read data
 WD <- setwd("//isdsyn1-1.isd.med.uni-muenchen.de/BD-Bernhagen/Simon Ebert/CD74_Adrian")
-source("Adrina CD74_function2.R")
+source("CD74_function.R")
 
 
 
