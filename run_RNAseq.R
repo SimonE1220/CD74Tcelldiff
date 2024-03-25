@@ -9,6 +9,7 @@ library(svglite)
 library(biomaRt)
 library(dplyr)
 
+#Read data
 WD <- setwd("//isdsyn1-1.isd.med.uni-muenchen.de/BD-Bernhagen/Simon Ebert/CD74_Adrian")
 source("Adrina CD74_function2.R")
 
@@ -163,7 +164,7 @@ conditions_list <- list(
        timepoint = "5d",
        condition = c("IFNB", "Th0"),
        Reference = "Th0")
-  # Add more conditions as needed
+  
 )
 
 # Run the analysis for each condition
@@ -251,6 +252,8 @@ cat(sprintf('<html>\n<body>\n%s\n</body>\n</html>', html_content), file = html_f
 
 # Open the HTML file in a web browser
 browseURL(html_file)
+
+####Done###
 
 
 

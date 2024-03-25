@@ -1,7 +1,5 @@
 # script to perform differential gene expression analysis using DESeq2 package
-# setwd("~/Desktop/demo/DESeq2_tutorial/data")
 
-# load libraries
 
 
 
@@ -14,20 +12,15 @@ performRNASeqAnalysis <- function(experiment, Cell_type, timepoint, condition, R
 WD <- setwd("//isdsyn1-1.isd.med.uni-muenchen.de/BD-Bernhagen/Simon Ebert/CD74_Adrian")
 
 counts_data <- read.table("counts.txt", header = TRUE, sep="\t")
-#row.names(counts_data)<-counts_data$X.KEY
-#counts_data <- counts_data[, !colnames(counts_data) %in% c("X.KEY")]
+
 str(counts_data)
 
-# Convert all columns to numeric
-#counts_data[] <- lapply(counts_data, as.numeric)
 
 # Check the structure again
 str(counts_data)
 
 mode(counts_data)
 
-#non_numeric_rows <- apply(counts_data, 2, function(x) grep("[^0-9.]", x))
-#print(non_numeric_rows)
 
 
 head(counts_data)
@@ -37,23 +30,20 @@ head(counts_data)
 colData <- project_info<- read.table("meta.txt", header = TRUE, sep="\t")
 row.names(colData)<-project_info$sample_id
 
-# Assuming your DESeqDataSet object is named project_info
 
 
-
-
-# Keep samples with cell_type == "CD4_Naive"
+# Keep samples with cell_type == Cell_type
 project_info <- project_info[project_info$cell_type == Cell_type, ]
 
-# Keep samples with stimulation_time == "5d"
+# Keep samples with stimulation_time == timepoint
 project_info <- project_info[project_info$stimulation_time == timepoint, ]
 
-# Keep samples with cytokine_condition == "Resting" or "Th0"
+# Keep samples with cytokine_condition == condition
 project_info <- project_info[project_info$cytokine_condition %in% condition, ]
 
 
 
-# Assuming your count matrix is named counts and project_info is a data frame with row names corresponding to sample names
+
 
 # Subset the count matrix based on sample names in project_info
 selected_samples <- project_info$sample_id
@@ -91,14 +81,11 @@ dds <- dds[keep,]
 
 
 dds
-# Assuming you have a DESeqDataSet object named dds
 
-#
-#####
 # set the factor level
 dds$Condition <- relevel(dds$cytokine_condition, ref = Reference)
 
-# NOTE: collapse technical replicates
+
 
 # Step 3: Run DESeq ----------------------
 dds <- DESeq(dds)
@@ -133,13 +120,12 @@ summary(res)
 # Load the biomaRt library
 
 
-# Specify the BioMart database to use (e.g., Ensembl Genes)
+# Specify the BioMart database
 ensembl <- useMart("ENSEMBL_MART_ENSEMBL", host = "www.ensembl.org", path = "/biomart/martservice")
 
-# Specify the dataset you want to use (e.g., human genes)
+# Specify the dataset you want to use
 dataset <- useDataset("hsapiens_gene_ensembl", mart = ensembl)
 
-# Your dataframe with Ensemble IDs
 
 
 # Use biomaRt to get gene symbols
@@ -172,10 +158,10 @@ write.xlsx(result_dataframe, paste0(experiment,timepoint,Cell_type, "_DEGs.xlsx"
 
 df <- result_dataframe
 head(df)
-# Assuming df is your DataFrame and 'gene_column' is the column containing gene names
-gene_column <- "SYMBOL"  # Replace with your actual column name
 
-# Remove genes starting with "Gm" or ending with "Rik"
+gene_column <- "SYMBOL" 
+
+# Remove genes starting with "Gm" or ending with "Rik" because no interest
 filtered_df <- df[!(grepl("^Gm", df[[gene_column]]) | grepl("Rik$", df[[gene_column]])), ]
 
 # Now, filtered_df contains the DataFrame with genes removed
@@ -217,17 +203,11 @@ p1<-EnhancedVolcano(filtered_df,
 show(p1)
 ggsave(paste0(experiment,timepoint, Cell_type, "_volcano.svg"), width = 9, height = 10)
 
-# Assuming your_dataframe is your dataframe with the necessary columns
-
-
-
-# Example data (replace this with your actual data)
-#set.seed(123)
 result_dataframe
 result_dataframe <- subset(result_dataframe, padj < 0.05)
 
 
-# Select genes you want to include in the dot plot
+
 # Select genes you want to include in the dot plot
 selected_genes <- c("CD74", "CXCR4", "MIF")
 
